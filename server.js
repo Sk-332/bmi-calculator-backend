@@ -13,7 +13,7 @@ app.use(cors());
 
 // Routes
 app.get("/", (req, res) => {
-  res.send("BMI Backend is running");
+  res.json({ status: "ok", message: "BMI Backend is running" });
 });
 
 app.use("/api/bmi", bmiRoutes);
@@ -21,8 +21,8 @@ app.use("/api/bmi", bmiRoutes);
 // DB connection
 connectDB();
 
-// ❗ CRITICAL FOR RAILWAY
-const PORT = process.env.PORT;
+// ❗ Critical for Railway: use process.env.PORT with fallback
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
