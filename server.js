@@ -9,26 +9,20 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "DELETE"],
-  })
-);
-
-
-// Database Connection
-connectDB();
+app.use(cors());
 
 // Routes
-app.use("/api/bmi", bmiRoutes);
-
 app.get("/", (req, res) => {
   res.send("BMI Backend is running");
 });
 
-// Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.use("/api/bmi", bmiRoutes);
+
+// DB connection
+connectDB();
+
+// ❗ CRITICAL FOR RAILWAY
+const PORT = process.env.PORT;
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
 });
