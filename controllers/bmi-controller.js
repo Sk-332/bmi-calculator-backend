@@ -1,14 +1,31 @@
 const Bmi = require("../models/bmiModel");
 
-// CREATE BMI
+// CREATE BMI (Backend logic)
 const createBmi = async (req, res) => {
   try {
-    const { height, weight, bmi, status } = req.body;
+    const { height, weight } = req.body;
 
-    if (!height || !weight || !bmi || !status) {
-      return res.status(400).json({ message: "All fields are required" });
+    // Validate input
+    if (!height || !weight) {
+      return res
+        .status(400)
+        .json({ message: "Height and weight are required" });
     }
 
+    // Convert cm to meters
+    const heightInMeters = height / 100;
+
+    // Calculate BMI
+    const bmi = (weight / (heightInMeters * heightInMeters)).toFixed(2);
+
+    // BMI status
+    let status;
+    if (bmi < 18.5) status = "Underweight";
+    else if (bmi < 25) status = "Normal";
+    else if (bmi < 30) status = "Overweight";
+    else status = "Obese";
+
+    // Save record
     const newBMI = await Bmi.create({
       height,
       weight,
