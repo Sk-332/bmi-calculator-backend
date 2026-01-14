@@ -12,7 +12,7 @@ const createBmi = async (req, res) => {
         .json({ message: "Height and weight are required" });
     }
 
-    
+     
     const heightInMeters = height / 100;
 
     
